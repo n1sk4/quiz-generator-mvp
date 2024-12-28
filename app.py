@@ -58,7 +58,7 @@ def save_questions_to_word(questions, output_path):
     doc.add_paragraph(q)
   doc.save(output_path)
 
-def create_test():
+def create_quiz():
   file_path = filedialog.askopenfilename(filetypes=[("PDF files", "*.pdf")])
   if not file_path:
     return
@@ -87,11 +87,11 @@ def create_test():
   elif save_format == "docx":
     save_questions_to_word(questions, output_path)
 
-  messagebox.showinfo("Success", "Test questions saved successfully!")
+  messagebox.showinfo("Success", "Quiz questions saved successfully!")
 
 if __name__ == "__main__":
   root = tk.Tk()
-  root.title("Test Question Generator")
+  root.title("Quiz Question Generator")
 
   frame = tk.Frame(root)
   frame.pack(pady=20, padx=20)
@@ -112,8 +112,8 @@ if __name__ == "__main__":
   for i, sf in enumerate(save_formats):
     tk.Radiobutton(frame, text=sf.upper(), variable=save_format_var, value=sf).grid(row=1, column=i+1)
 
-  tk.Button(frame, text="Generate Test", command=create_test).grid(row=2, column=0, columnspan=3, pady=10)
+  tk.Button(frame, text="Generate Quiz", command=create_quiz).grid(row=2, column=0, columnspan=3, pady=10)
 
   root.mainloop()
 
-  print("Test generator running...")
+  print("Quiz generator running...")
