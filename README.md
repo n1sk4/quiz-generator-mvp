@@ -39,3 +39,13 @@ Run the app:
 ```sh
 python app.py
 ```
+
+## Demo
+1) Select Question types and output file type: \
+   <img src="https://github.com/user-attachments/assets/5eaf1cf3-544c-4f3c-9974-fe83edec423c" alt="drawing" width="300"/>
+
+2) Press Generate Quiz and select a pdf file with relevant data: \
+   <img src="https://github.com/user-attachments/assets/a777aa05-b8c6-43ba-add7-4f8a94aebd50" alt="drawing" width="400"/>
+
+3) Generated test (multiple choice): \
+   <img src="https://github.com/user-attachments/assets/2f8da1d1-ea45-4f9c-8e66-73323fb905a1" alt="drawing" width="400"/>
