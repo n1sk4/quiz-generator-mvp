@@ -1,0 +1,6 @@
+/.env
+/Include
+/Lib
+/Scripts
+/docx-template
+/*.cfg
