@@ -24,11 +24,11 @@ def generate_questions_llm(text, question_types):
   if "abc" in question_types:
     additional_info += "\n* ABC (provide up to 4 different answers with one correct and other three wrong or misleading (separated by a), b), etc)\n"
   if "fill_in" in question_types:
-    additional_info += "* FILL IN (questions provide a sentance with a word missing (replaced with '_'), ideally a name or a date/year)\n"
+    additional_info += "* FILL IN (questions provide a sentance with a word missing (replaced with '_' for each letter), ideally a name or a date/year)\n"
   if "essay" in question_types:
     additional_info += "* ESSAY (leave an empty space after the question)\n"
 
-  prompt = f'''Do not additionally explain, but only generate questions that have answear type: 
+  prompt = f'''Do not additionally explain, but only generate {number_of_questions.get("1.0", tk.END)} questions that have answear type: 
 {additional_info}
   
 please format the question to have a ONLY a number and then the question text, DO NOT, i repeat do not write answear type anywhere in the question, 
@@ -41,7 +41,7 @@ followed by the answears if applicable from the text: {text[:1000]}.'''
       {"role": "user", "content": prompt}
     ]
   )
-  
+
   return completion.choices[0].message.content.strip().split("\n")
 
 def save_questions_to_pdf(questions, output_path):
@@ -89,6 +89,13 @@ def create_quiz():
 
   messagebox.showinfo("Success", "Quiz questions saved successfully!")
 
+def validate_input(event):
+  allowed_keys = {"BackSpace", "Delete", "Left", "Right", "Up", "Down", "Home", "End"}
+  if event.char.isdigit() or event.keysym in allowed_keys:
+    return 
+  else:
+    return "break"
+
 if __name__ == "__main__":
   root = tk.Tk()
   root.title("Quiz Question Generator")
@@ -96,7 +103,13 @@ if __name__ == "__main__":
   frame = tk.Frame(root)
   frame.pack(pady=20, padx=20)
 
-  tk.Label(frame, text="Select Question Types:").grid(row=0, column=0, sticky="w")
+  tk.Label(frame, text="Select number of questions:").grid(row=0, column=0, sticky="w")
+  number_of_questions = tk.Text(frame, width=4, height=1, wrap='none')
+  number_of_questions.grid(row=0, column=1, sticky="w")
+  number_of_questions.bind("<KeyPress>", validate_input)
+  number_of_questions.insert('end', '5')
+
+  tk.Label(frame, text="Select Question Types:").grid(row=1, column=0, sticky="w")
   question_type_vars = {
   "abc"     : tk.BooleanVar(value=False),
   "fill_in" : tk.BooleanVar(value=False),
@@ -104,15 +117,15 @@ if __name__ == "__main__":
   }
 
   for i, (qt, var) in enumerate(question_type_vars.items()):
-    tk.Checkbutton(frame, text=qt.capitalize(), variable=var).grid(row=0, column=i+1)
+    tk.Checkbutton(frame, text=qt.capitalize(), variable=var).grid(row=1, column=i+1)
 
-  tk.Label(frame, text="Save Format:").grid(row=1, column=0, sticky="w")
+  tk.Label(frame, text="Save Format:").grid(row=2, column=0, sticky="w")
   save_format_var = tk.StringVar(value="pdf")
   save_formats = ["pdf", "docx"]
   for i, sf in enumerate(save_formats):
-    tk.Radiobutton(frame, text=sf.upper(), variable=save_format_var, value=sf).grid(row=1, column=i+1)
+    tk.Radiobutton(frame, text=sf.upper(), variable=save_format_var, value=sf).grid(row=2, column=i+1)
 
-  tk.Button(frame, text="Generate Quiz", command=create_quiz).grid(row=2, column=0, columnspan=3, pady=10)
+  tk.Button(frame, text="Generate Quiz", command=create_quiz).grid(row=3, column=0, columnspan=3, pady=10)
 
   root.mainloop()
 

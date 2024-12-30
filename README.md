@@ -25,6 +25,8 @@ pip install openai # Open AI lib
 
 pip install pymupdf # PDF read/write lib
 
+pip install python-docx # MS Word read/write lib
+
 pip install dotenv # environment variables (for API keys) lib
 ```
 
